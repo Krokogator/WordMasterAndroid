@@ -1,7 +1,12 @@
 package com.example.krokogator.wordmasterandroid.Other;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -9,7 +14,8 @@ import java.util.List;
  */
 
 public class CommandExecutor {
-    public static void sudo(String string){
+
+    public void sudo(String string){
         try{
             Process su;
             su = Runtime.getRuntime().exec("su");
@@ -33,10 +39,9 @@ public class CommandExecutor {
         }
     }
 
-    public static void sudo(List<String> strings) {
+    public void sudo(List<String> strings) {
         try{
-            Process su;
-            su = Runtime.getRuntime().exec("su");
+            Process su = Runtime.getRuntime().exec("su");
 
             DataOutputStream outputStream = new DataOutputStream(su.getOutputStream());
 

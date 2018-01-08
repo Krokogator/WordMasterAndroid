@@ -1,26 +1,24 @@
 package com.example.krokogator.wordmasterandroid.TouchEmulation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by micha on 06.01.2018.
  */
 
-public class TouchEvent {
+public class TouchCommand {
     private static String sendevent = "sendevent /dev/input/event1";
 
-    public String createTouchString(List<Point> points){
-        StringBuilder touchEventString = new StringBuilder();
-
-        touchEventString.append(touch());
-
-        for (Point point : points) {
-            move(point.getX(), point.getY());
+    public List<String> newTouchCommand(List<Point> points){
+        List<String> commands = new ArrayList<>();
+        commands.add(touch());
+        for(Point point : points){
+            commands.add(move(point.getX(), point.getY()));
         }
+        commands.add(release());
 
-        touchEventString.append(release());
-
-        return touchEventString.toString();
+        return commands;
     }
 
     private String touch(){

@@ -9,12 +9,17 @@ import java.util.List;
  */
 
 public class TouchEmulator {
+    private CommandExecutor cmd;
+
+    public TouchEmulator(){cmd = new CommandExecutor();}
+
+    //Emulates touches with given list of points
     public void emulateTouch(List<Point> points){
-        TouchEvent touch = new TouchEvent();
-        emulate(touch.createTouchString(points));
+        TouchCommand command = new TouchCommand();
+        emulate(command.newTouchCommand(points));
     }
 
-    private void emulate(String touchEvenet){
-        CommandExecutor.sudo(touchEvenet);
+private void emulate(List<String> touchCommand){
+        cmd.sudo(touchCommand);
     }
 }
