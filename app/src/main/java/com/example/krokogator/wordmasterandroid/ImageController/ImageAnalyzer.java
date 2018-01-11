@@ -3,6 +3,7 @@ package com.example.krokogator.wordmasterandroid.ImageController;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,14 +24,16 @@ public class ImageAnalyzer {
 
         for(Bitmap image : letters){
             output=output+getChar(image);
+            Log.i("IMAGE", output);
         }
+
         return output;
     }
 
     private float compare(Bitmap img1, Bitmap img2){
         int count = 0;
-        for (int x = 0; x < img1.getWidth(); x++) {
-            for(int y = 0; y < img1.getHeight(); y++){
+        for (int x = 0; x < img1.getWidth(); x+=4) {
+            for(int y = 0; y < img1.getHeight(); y+=4){
                 int blue1 = Color.red(img1.getPixel(x,y));
                 int blue2 = Color.red(img2.getPixel(x,y));
                 if (blue1<blue2||blue1>blue2) {
@@ -43,13 +46,13 @@ public class ImageAnalyzer {
 
     private Character getChar(Bitmap image){
         float lowest=compare(image,samples[0]);
-        Integer position=0;
+        int letterId=0;
         float percentage;
         for(int i=0;i<32;i++){
             percentage=compare(image,samples[i]);
             if(percentage<lowest){
                 lowest=percentage;
-                position=i;
+                letterId=i;
             }
         }
 
@@ -89,7 +92,7 @@ public class ImageAnalyzer {
         map.put(30,'ę');
         map.put(31,'ł');
 
-        letter=map.get(position);
+        letter=map.get(letterId);
         return letter;
     }
 

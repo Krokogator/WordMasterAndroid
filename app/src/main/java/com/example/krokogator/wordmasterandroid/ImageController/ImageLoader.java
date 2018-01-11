@@ -6,10 +6,9 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 
-import com.example.krokogator.wordmasterandroid.Other.CommandExecutor;
+import com.example.krokogator.wordmasterandroid.Utility.CommandExecutor;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 
 /**
@@ -30,7 +29,7 @@ public class ImageLoader {
                 Log.i("IMAGE","t start");
                 try {
                     Thread.currentThread();
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -58,7 +57,8 @@ public class ImageLoader {
     }
 
     public Bitmap[] getUnverifiedLetters(Context context){
-        return sliceIntoLetters(getImage("/WordMaster/Temp/screencap.png"));
+        return sliceIntoLetters(getScreenshot());
+        //return sliceIntoLetters(getImage("/WordMaster/Temp/screencap.png"));
     }
 
     private Bitmap[] sliceIntoLetters(Bitmap bitmap){

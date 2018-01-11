@@ -1,6 +1,6 @@
 package com.example.krokogator.wordmasterandroid.TouchEmulation;
 
-import com.example.krokogator.wordmasterandroid.Other.CommandExecutor;
+import com.example.krokogator.wordmasterandroid.Utility.CommandExecutor;
 
 import java.util.List;
 

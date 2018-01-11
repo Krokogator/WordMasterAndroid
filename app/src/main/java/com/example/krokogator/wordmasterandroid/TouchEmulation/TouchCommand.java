@@ -1,5 +1,7 @@
 package com.example.krokogator.wordmasterandroid.TouchEmulation;
 
+import android.os.IBinder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,29 +14,39 @@ public class TouchCommand {
 
     public List<String> newTouchCommand(List<Point> points){
         List<String> commands = new ArrayList<>();
-        commands.add(touch());
+        commands.addAll(touch());
         for(Point point : points){
-            commands.add(move(point.getX(), point.getY()));
+            commands.addAll(move(point.getX(), point.getY()));
         }
-        commands.add(release());
+        commands.addAll(release());
 
         return commands;
     }
 
-    private String touch(){
-        return  sendevent+" 3 57 14 &&"+
-                sendevent+" 1 330 1 &&"+
-                sendevent+" 1 325 1";
+    private List<String> touch(){
+        List<String> list = new ArrayList<>();
+        list.add(sendevent+" 3 57 14");
+        list.add(sendevent+" 1 330 1");
+        list.add(sendevent+" 1 325 1");
+
+        return list;
     }
-    private String move(int x, int y){
-        return  sendevent+" 3 53 "+x+" &&"+
-                sendevent+" 3 54 "+y+" &&"+
-                sendevent+" 0 0 0";
+    private List<String> move(int x, int y){
+        List<String> list = new ArrayList<>();
+        list.add(sendevent+" 3 53 "+x);
+        list.add(sendevent+" 3 54 "+y);
+        list.add(sendevent+" 0 0 0");
+        return list;
     }
-    private String release(){
-        return  sendevent+" 3 57 4294967295 &&"+
-                sendevent+" 1 330 0 &&"+
-                sendevent+" 1 325 0 &&"+
-                sendevent+" 0 0 0";
+
+    private List<String> release(){
+        List<String> list = new ArrayList<>();
+        list.add(sendevent+" 3 57 4294967295");
+        list.add(sendevent+" 1 330 0");
+        list.add(sendevent+" 1 325 0");
+        list.add(sendevent+" 0 0 0");
+
+
+        return list;
     }
 }

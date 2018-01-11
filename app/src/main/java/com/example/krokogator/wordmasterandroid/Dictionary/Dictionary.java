@@ -18,7 +18,9 @@ public class Dictionary {
 
     }
 
-    public boolean checkWord(String word){
+    public boolean isWord(String word){
         return dictionaryTree.checkWord(word);
     }
+
+    public boolean isWordBegining(String word) { return dictionaryTree.checkPath(word); }
 }

@@ -1,70 +1,61 @@
 package com.example.krokogator.wordmasterandroid;
 
 import android.content.Intent;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
-import com.example.krokogator.wordmasterandroid.Dictionary.Dictionary;
+import com.example.krokogator.wordmasterandroid.GridSolver.Solver;
 import com.example.krokogator.wordmasterandroid.ImageController.ImageAnalyzer;
 import com.example.krokogator.wordmasterandroid.ImageController.ImageLoader;
-import com.example.krokogator.wordmasterandroid.Other.PermissionVerifier;
+import com.example.krokogator.wordmasterandroid.Utility.PermissionVerifier;
 
 public class MainActivity extends AppCompatActivity {
-
+    private Thread thread;
+    private TestThread testT;
     Intent backgroundService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        backgroundService = new Intent(this, BackgroundServiceTEST.class);
+        //backgroundService = new Intent(this, BackgroundServiceTEST.class);
 
         PermissionVerifier.isStoragePermissionGranted(this);
+        this.testT = new TestThread(getApplicationContext());
+    }
 
+    public void onClickStartThread(View view){
+        if(thread == null){
+            this.thread = new Thread(testT);
+            thread.start();
+        } else{
+            testT.isRunning = true;
+            this.thread = new Thread(testT);
+            thread.start();
 
-        /**
-         * IMAGELOADER
-
-        ImageLoader img = new ImageLoader();
-        //img.getScreenshot();
-         */
-
-        ImageLoader img = new ImageLoader();
-
-
-
-        ImageAnalyzer analyzer = new ImageAnalyzer(img.getSampleLetters(getApplicationContext()));
-        Log.i("IMAGE", "Analiza w toku...");
-        Log.i("IMAGE",analyzer.analyzeLetters(img.getUnverifiedLetters(getApplicationContext())));
-
-        /**
-         * DICTIONARY
-
-        Dictionary dict = new Dictionary(getApplicationContext());
-        if(dict.checkWord("kupa")){
-            Log.i("IMAGE", "kupa found");
         }
-        if(!dict.checkWord("mytcohłodadm")){
-            Log.i("IMAGE", "mytcohłodadm not found");
-        }
-         */
 
+    }
+
+    public void onClickStopThread(View view){
+        if(thread!=null){
+            testT.isRunning=false;
+        }
     }
 
     @Override
     protected void onPause() {
-        startService(backgroundService);
+        //startService(backgroundService);
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        stopService(backgroundService);
+        //stopService(backgroundService);
         super.onResume();
     }
-
-
-
 
 }

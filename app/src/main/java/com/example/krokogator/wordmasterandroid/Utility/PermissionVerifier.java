@@ -1,4 +1,4 @@
-package com.example.krokogator.wordmasterandroid.Other;
+package com.example.krokogator.wordmasterandroid.Utility;
 
 import android.Manifest;
 import android.app.Activity;
