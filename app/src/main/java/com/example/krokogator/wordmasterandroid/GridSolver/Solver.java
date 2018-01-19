@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.krokogator.wordmasterandroid.Dictionary.Dictionary;
 import com.example.krokogator.wordmasterandroid.Dictionary.Tree;
 import com.example.krokogator.wordmasterandroid.TouchEmulation.Point;
+import com.example.krokogator.wordmasterandroid.TouchEmulation.TouchCommand;
 import com.example.krokogator.wordmasterandroid.TouchEmulation.TouchEmulator;
 
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class Solver {
     }
 
     //runs my custom DFS algorithm on each letter/box
-    public void findPaths(char[] grid){
+    public List<List<String>> findPaths(char[] grid){
         this.grid = grid;
         List<Integer> noDeadBoxes = new ArrayList<>();
         this.boxes = initBoxes(noDeadBoxes);
@@ -51,7 +52,7 @@ public class Solver {
             customDFS(box, newboxes, paths, currentPath);
         }
         //displayListOfListsOfPairs(paths);
-        displaySorted(deleteDuplicates(paths));
+        return displaySorted(deleteDuplicates(paths));
     }
 
     /**
@@ -143,7 +144,7 @@ public class Solver {
         return dead;
     }
 
-    private void displaySorted(List<List<Pair>> listOfLists) {   //List<List<DictionaryController.Pair>> listOfLists
+    private List<List<String>> displaySorted(List<List<Pair>> listOfLists) {   //List<List<DictionaryController.Pair>> listOfLists
         List<String> listOfStrings = new ArrayList<>();
         List<List<Integer>> listOfInts = new ArrayList<>();
         for (List<Pair> list : listOfLists) {
@@ -175,9 +176,14 @@ public class Solver {
             if(length<3){ break;}
         }
 
+        List<List<String>> commands = new ArrayList<>();
         for (List<Integer> path : ordered) {
-            runPath(path);
+        List<Point> points = createTouchSequence(path);
+        TouchCommand command = new TouchCommand();
+        commands.add(command.newTouchCommand(points));
         }
+
+        return commands;
     }
 
     private String xInput(int x){
@@ -211,8 +217,8 @@ public class Solver {
             else if(id==14){points.add(new Point(x2,y4));}
             else if(id==15){points.add(new Point(x3,y4));}
             else if(id==16){points.add(new Point(x4,y4));}
-
         }
+
         Log.i("IMAGE","Word length: "+points.size());
 
         return points;
@@ -231,9 +237,9 @@ public class Solver {
     }
 
     private void runPath(List<Integer> path){
-        List<Point> points = createTouchSequence(path);
 
-        touchEmulator.emulateTouch(points);
+
+        //touchEmulator.emulateTouch(points);
     }
 
     public List<String> sortList(List<String> mylist){

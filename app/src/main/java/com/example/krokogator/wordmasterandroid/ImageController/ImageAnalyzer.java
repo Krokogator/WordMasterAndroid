@@ -30,6 +30,22 @@ public class ImageAnalyzer {
         return output;
     }
 
+    public boolean isInRound(Bitmap screenshot){
+        for(int x=230;x<=1280;x+=350){
+            for(int y=1265;y<=2540;y+=425) {
+                int pixel = screenshot.getPixel(x, y);
+                int blue = Color.blue(pixel);
+                int red = Color.red(pixel);
+
+                if (blue != 49 && red != 37) {
+                    Log.i("ImageAnalyzer", "" + blue+"x: "+x+",y: "+y+",red: "+Color.red(pixel)+", green: "+Color.green(pixel));
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private float compare(Bitmap img1, Bitmap img2){
         int count = 0;
         for (int x = 0; x < img1.getWidth(); x+=4) {

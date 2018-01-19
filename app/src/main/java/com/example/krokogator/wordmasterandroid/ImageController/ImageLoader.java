@@ -18,18 +18,18 @@ import java.io.IOException;
 public class ImageLoader {
     CommandExecutor cmd = new CommandExecutor();
 
-    private void screenshot(){
-        cmd.sudo("/system/bin/screencap -p /sdcard/WordMaster/img.png");
+    private void screenshot(String imageName){
+        cmd.sudo("/system/bin/screencap -p /sdcard/WordMaster/"+imageName+".png");
     }
 
-    public Bitmap getScreenshot(){
+    public Bitmap getScreenshot(final String imageName){
         Thread t1 = new Thread(){
             public void run(){
-                screenshot();
-                Log.i("IMAGE","t start");
+                screenshot(imageName);
+                Log.i("IMAGE","Screenshot: "+imageName);
                 try {
-                    Thread.currentThread();
-                    Thread.sleep(1000);
+                    //Thread.currentThread();
+                    Thread.sleep(500);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -38,7 +38,7 @@ public class ImageLoader {
         };
         t1.run();
         while(t1.isAlive()){}
-        return getImage("/WordMaster/img.png");
+        return getImage("/WordMaster/"+imageName+".png");
     }
 
     public Bitmap[] getSampleLetters(Context context){
@@ -56,8 +56,8 @@ public class ImageLoader {
         return letters;
     }
 
-    public Bitmap[] getUnverifiedLetters(Context context){
-        return sliceIntoLetters(getScreenshot());
+    public Bitmap[] getUnverifiedLetters(String imageName){
+        return sliceIntoLetters(getScreenshot(imageName));
         //return sliceIntoLetters(getImage("/WordMaster/Temp/screencap.png"));
     }
 

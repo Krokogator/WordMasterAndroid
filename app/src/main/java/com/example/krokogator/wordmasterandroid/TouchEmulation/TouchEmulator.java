@@ -1,5 +1,9 @@
 package com.example.krokogator.wordmasterandroid.TouchEmulation;
 
+import android.app.Instrumentation;
+import android.os.SystemClock;
+import android.view.MotionEvent;
+
 import com.example.krokogator.wordmasterandroid.Utility.CommandExecutor;
 
 import java.util.List;
@@ -19,7 +23,7 @@ public class TouchEmulator {
         emulate(command.newTouchCommand(points));
     }
 
-private void emulate(List<String> touchCommand){
+    public void emulate(List<String> touchCommand) {
         cmd.sudo(touchCommand);
     }
 }

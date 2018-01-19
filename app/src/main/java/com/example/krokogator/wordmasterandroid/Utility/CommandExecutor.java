@@ -52,7 +52,7 @@ public class CommandExecutor {
 
             for (String s : strings) {
                 outputStream.writeBytes(s+"\n");
-                Log.i("Master",s);
+                //Log.i("Master",s);
                 outputStream.flush();
             }
             outputStream.writeBytes("exit\n");

@@ -16,7 +16,7 @@ public class TouchCommand {
         List<String> commands = new ArrayList<>();
         commands.addAll(touch());
         for(Point point : points){
-            commands.addAll(move(point.getX(), point.getY()));
+                commands.addAll(move(point.getX(), point.getY()));
         }
         commands.addAll(release());
 

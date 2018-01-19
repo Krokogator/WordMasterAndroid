@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.krokogator.wordmasterandroid.GridSolver.Solver;
 import com.example.krokogator.wordmasterandroid.ImageController.ImageAnalyzer;
@@ -15,7 +16,8 @@ import com.example.krokogator.wordmasterandroid.Utility.PermissionVerifier;
 public class MainActivity extends AppCompatActivity {
     private Thread thread;
     private TestThread testT;
-    Intent backgroundService;
+    private Button startButton;
+    private Button stopButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,25 +26,27 @@ public class MainActivity extends AppCompatActivity {
         //backgroundService = new Intent(this, BackgroundServiceTEST.class);
 
         PermissionVerifier.isStoragePermissionGranted(this);
-        this.testT = new TestThread(getApplicationContext());
+        startButton = findViewById(R.id.button);
+        stopButton = findViewById(R.id.button2);
+        stopButton.setEnabled(false);
     }
 
     public void onClickStartThread(View view){
-        if(thread == null){
-            this.thread = new Thread(testT);
+        if(testT == null){
+            startButton.setEnabled(false);
+            testT = new TestThread(getApplicationContext());
+            thread = new Thread(testT);
             thread.start();
-        } else{
-            testT.isRunning = true;
-            this.thread = new Thread(testT);
-            thread.start();
-
+            stopButton.setEnabled(true);
         }
-
     }
 
     public void onClickStopThread(View view){
-        if(thread!=null){
+        if(testT!=null){
             testT.isRunning=false;
+            testT = null;
+            stopButton.setEnabled(false);
+            startButton.setEnabled(true);
         }
     }
 
