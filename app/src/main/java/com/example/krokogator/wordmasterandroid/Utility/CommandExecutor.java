@@ -45,7 +45,7 @@ public class CommandExecutor {
 
     public void sudo(List<String> strings) {
         try{
-            Log.i("Master","INIT TOUCH");
+            Log.i("CommandExecutor","Input word");
             Process su = Runtime.getRuntime().exec("su");
 
             DataOutputStream outputStream = new DataOutputStream(su.getOutputStream());
@@ -62,29 +62,9 @@ public class CommandExecutor {
             } catch (InterruptedException e) {
                 su.destroy();
             }
-            Log.i("Master","END TOUCH");
-
             outputStream.close();
         }catch(IOException e){
             e.printStackTrace();
         }
     }
-
-    public void generateNoteOnSD(Context context, String sFileName, String sBody) {
-        try {
-            File root = new File(Environment.getExternalStorageDirectory(), "WordMaster");
-            if (!root.exists()) {
-                root.mkdirs();
-            }
-            File gpxfile = new File(root, sFileName);
-            FileWriter writer = new FileWriter(gpxfile);
-            writer.append(sBody);
-            writer.flush();
-            writer.close();
-            Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

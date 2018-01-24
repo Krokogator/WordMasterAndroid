@@ -26,12 +26,12 @@ public class ImageLoader {
         Thread t1 = new Thread(){
             public void run(){
                 screenshot(imageName);
-                Log.i("IMAGE","Screenshot: "+imageName);
+                Log.i("ImageLoader","Screenshot \""+imageName+".png\" taken");
                 try {
                     //Thread.currentThread();
-                    Thread.sleep(500);
+                    //Thread.sleep(500);
 
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

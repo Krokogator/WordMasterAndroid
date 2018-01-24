@@ -17,12 +17,6 @@ public class TouchEmulator {
 
     public TouchEmulator(){cmd = new CommandExecutor();}
 
-    //Emulates touches with given list of points
-    public void emulateTouch(List<Point> points){
-        TouchCommand command = new TouchCommand();
-        emulate(command.newTouchCommand(points));
-    }
-
     public void emulate(List<String> touchCommand) {
         cmd.sudo(touchCommand);
     }

@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //backgroundService = new Intent(this, BackgroundServiceTEST.class);
 
         PermissionVerifier.isStoragePermissionGranted(this);
         startButton = findViewById(R.id.button);
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickStopThread(View view){
         if(testT!=null){
             testT.isRunning=false;
+            testT.isRound = false;
             testT = null;
             stopButton.setEnabled(false);
             startButton.setEnabled(true);

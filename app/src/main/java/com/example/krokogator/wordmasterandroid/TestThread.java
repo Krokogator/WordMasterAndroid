@@ -1,5 +1,7 @@
 package com.example.krokogator.wordmasterandroid;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.text.method.Touch;
@@ -23,7 +25,7 @@ public class TestThread implements Runnable {
     private ImageAnalyzer analyzer;
     private Solver solver;
     private TouchEmulator touchEmulator;
-    private boolean isRound;
+    public boolean isRound;
     public int imageBuffer;
     public int temp;
 
@@ -72,26 +74,25 @@ public class TestThread implements Runnable {
     }
 
     private void round(){
-        Log.i("WordMasterThread","Runda Start");
+        Log.i("WordMasterThread","Round Start");
         String input = analyzer.analyzeLetters(img.getUnverifiedLetters("letterScreenshot"));
         List<List<String>> paths = solver.findPaths(input.toCharArray());
         for (List<String> path: paths
              ) {
             if(!isRound){
-                Log.i("WordMasterThread","Runda ForceStop");
+                Log.i("WordMasterThread","Round Stop");
                 break;
             }
             touchEmulator.emulate(path);
         }
         while (isRound){
             try {
-                Log.i("WordMasterThread","Runda Waiting");
+                Log.i("WordMasterThread","Round Waiting");
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        //solver.findPaths("agagagagagagagag".toCharArray());
     }
 
     private boolean isRoundPlaying(){
@@ -109,6 +110,4 @@ public class TestThread implements Runnable {
 
         return false;
     }
-
-
 }

@@ -1,18 +1,12 @@
 package com.example.krokogator.wordmasterandroid.GridSolver;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.krokogator.wordmasterandroid.Dictionary.Dictionary;
-import com.example.krokogator.wordmasterandroid.Dictionary.Tree;
 import com.example.krokogator.wordmasterandroid.TouchEmulation.Point;
 import com.example.krokogator.wordmasterandroid.TouchEmulation.TouchCommand;
-import com.example.krokogator.wordmasterandroid.TouchEmulation.TouchEmulator;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,18 +17,12 @@ import java.util.Set;
 
 public class Solver {
     private Dictionary dictionary;
-    private TouchEmulator touchEmulator;
-
     private char[] grid = new char[16];
     private List<Box> boxes= new ArrayList<>();
     private List<List<Pair>> paths = new ArrayList<>();
 
     public Solver(Context context){
         this.dictionary = new Dictionary(context);
-        this.touchEmulator = new TouchEmulator();
-
-
-
     }
 
     //runs my custom DFS algorithm on each letter/box
@@ -51,7 +39,6 @@ public class Solver {
             List<Box> newboxes = initBoxes(indexDead);
             customDFS(box, newboxes, paths, currentPath);
         }
-        //displayListOfListsOfPairs(paths);
         return displaySorted(deleteDuplicates(paths));
     }
 
@@ -62,7 +49,6 @@ public class Solver {
      * - each call checks if current path(word) + box(letter) that can be visited can create a subword of a valid word
      */
     private List<List<Pair>> customDFS(Box box, List<Box> aliveBoxes, List<List<Pair>> validPaths, List<Pair> possiblePath){
-
         List<Integer> deadBoxes = getDead(aliveBoxes);
         deadBoxes.add(box.getId());
         List<Box> nextAliveBoxes = initBoxes(deadBoxes);
@@ -107,22 +93,18 @@ public class Solver {
     }
 
     private List<List<Pair>> deleteDuplicates(List<List<Pair>> paths){
-        List<List<Pair>> noDups = new ArrayList<>();
         Set<List<Pair>> toDelete = new HashSet<>();
-        System.out.println(paths.size());
         for(List<Pair> path : paths){
             for(List<Pair> path2 : paths){
                 if(!pairsToPaths(path).equals(pairsToPaths(path2))&&!(toDelete.contains(path)||toDelete.contains(path2))){
                     if(pairsToWord(path).equals(pairsToWord(path2))){
                         toDelete.add(path);
-                        System.out.println("usuwam: = "+pairsToWord(path));
                     }
                 }
             }
         }
 
         paths.removeAll(toDelete);
-        System.out.println(paths.size());
         return paths;
     }
 
@@ -151,14 +133,6 @@ public class Solver {
             listOfStrings.add(pairsToWord(list));
             listOfInts.add(pairsToPaths(list));
         }
-
-
-        List<String> sorted = sortList(listOfStrings);
-
-        for (String word : sorted) {
-            System.out.println(word);
-        }
-
         List<List<Integer>> ordered = new ArrayList<>();
         int length=16;
         List<List<Integer>> toRemove = new ArrayList<>();
@@ -186,14 +160,6 @@ public class Solver {
         return commands;
     }
 
-    private String xInput(int x){
-        return "adb shell sendevent /dev/input/event1 3 53 "+x;
-    }
-
-    private String yInput(int y){
-        return "adb shell sendevent /dev/input/event1 3 54 "+y;
-    }
-
     private List<Point> createTouchSequence(List<Integer> path){
         int x1=200,x2=550,x3=900,x4=1250;
         int y1=1050,y2=1470,y3=1890,y4=2310;
@@ -218,64 +184,7 @@ public class Solver {
             else if(id==15){points.add(new Point(x3,y4));}
             else if(id==16){points.add(new Point(x4,y4));}
         }
-
-        Log.i("IMAGE","Word length: "+points.size());
-
         return points;
-    }
-
-    public static long timer(int length){
-        long timer=0;
-        //*250 +1050 - ac
-        timer=(length-2) *190 +1100;
-        long start = System.currentTimeMillis();
-        long elapsed = System.currentTimeMillis() - start;
-        while(elapsed < timer){
-            elapsed = System.currentTimeMillis() - start;
-        }
-        return elapsed;
-    }
-
-    private void runPath(List<Integer> path){
-
-
-        //touchEmulator.emulateTouch(points);
-    }
-
-    public List<String> sortList(List<String> mylist){
-
-        Comparator<String> x = new Comparator<String>()
-        {
-            @Override
-            public int compare(String o1, String o2)
-            {
-                if(o1.length() > o2.length())
-                    return 1;
-
-                if(o2.length() > o1.length())
-                    return -1;
-
-                return 0;
-            }
-        };
-
-        Collections.sort(mylist,  x);
-
-        List<String> noDups = new ArrayList<>();
-        for(String w1 : mylist){
-            if(!noDups.contains(w1)){
-                noDups.add(w1);
-            }
-        }
-
-        return noDups;
-    }
-
-    //Displays on standard output list of lists of pairs
-    private void displayListOfListsOfPairs(List<List<Pair>> listOfLists){
-        for(List<Pair> list : listOfLists){
-            System.out.println(pairsToWord(list));
-        }
     }
 
     //Checks if list of boxes contains given id

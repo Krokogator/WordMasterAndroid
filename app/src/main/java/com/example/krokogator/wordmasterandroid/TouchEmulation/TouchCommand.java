@@ -10,7 +10,12 @@ import java.util.List;
  */
 
 public class TouchCommand {
-    private static String sendevent = "sendevent /dev/input/event1";
+    private String event = "event1";
+    private String sendevent = "sendevent /dev/input/";
+
+    public TouchCommand(){
+        sendevent = sendevent + event;
+    }
 
     public List<String> newTouchCommand(List<Point> points){
         List<String> commands = new ArrayList<>();

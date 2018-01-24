@@ -1,6 +1,5 @@
 package com.example.krokogator.wordmasterandroid.ImageController;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
@@ -24,21 +23,21 @@ public class ImageAnalyzer {
 
         for(Bitmap image : letters){
             output=output+getChar(image);
-            Log.i("IMAGE", output);
         }
-
+        Log.i("ImageAnalyzer", output);
         return output;
     }
 
     public boolean isInRound(Bitmap screenshot){
         for(int x=230;x<=1280;x+=350){
             for(int y=1265;y<=2540;y+=425) {
+
                 int pixel = screenshot.getPixel(x, y);
                 int blue = Color.blue(pixel);
                 int red = Color.red(pixel);
+                int green = Color.green(pixel);
 
-                if (blue != 49 && red != 37) {
-                    Log.i("ImageAnalyzer", "" + blue+"x: "+x+",y: "+y+",red: "+Color.red(pixel)+", green: "+Color.green(pixel));
+                if (blue != 49 && red != 37 && green != 9) {
                     return false;
                 }
             }
